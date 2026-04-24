@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requriments.txt \
 COPY . .
 
 # Write the cron job: run full SEO→Instagram pipeline at 09:00 UTC every day
-RUN echo "30 6 * * * root cd /app && python seo_to_instagram.py >> /var/log/pipeline.log 2>&1" \
+RUN echo "30 7 * * * root cd /app && python seo_to_instagram.py >> /var/log/pipeline.log 2>&1" \
     > /etc/cron.d/seo-pipeline \
     && chmod 0644 /etc/cron.d/seo-pipeline \
     && crontab /etc/cron.d/seo-pipeline
