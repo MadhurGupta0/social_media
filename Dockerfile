@@ -2,22 +2,22 @@ FROM python:3.13-slim-bookworm
 
 WORKDIR /app
 
-# Install cron
-RUN apt-get update && apt-get install -y cron && rm -rf /var/lib/apt/lists/*
-
 # Install Python deps
 COPY requriments.txt .
 RUN pip install --no-cache-dir -r requriments.txt \
-    && pip install --no-cache-dir supabase python-dotenv requests pytrends
+    && pip install --no-cache-dir supabase python-dotenv requests pytrends boto3
 
 # Copy source code
-COPY . .
+COPY seo_to_instagram.py .
+COPY seotreand.py .
+COPY reap_pipeline.py .
+COPY instagram_upload.py .
 
-# Write the cron job: run full SEO→Instagram pipeline at 09:00 UTC every day
-RUN echo "30 7 * * * root cd /app && python seo_to_instagram.py >> /var/log/pipeline.log 2>&1" \
-    > /etc/cron.d/seo-pipeline \
-    && chmod 0644 /etc/cron.d/seo-pipeline \
-    && crontab /etc/cron.d/seo-pipeline
+# Copy entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Keep the container alive running cron in the foreground
-CMD ["cron", "-f"]
+# All secrets come from ECS task definition env vars — no .env file baked in
+ENV PYTHONUNBUFFERED=1
+
+ENTRYPOINT ["/entrypoint.sh"]
