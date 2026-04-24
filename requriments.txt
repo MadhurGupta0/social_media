@@ -3,3 +3,6 @@ moviepy
 openai-whisper
 sentence-transformers 
 numpy
+supabase
+python-dotenv
+requests
