@@ -1,23 +1,21 @@
-.PHONY: build up down logs run install clean
+.PHONY: setup run docker-build docker-run docker-clean
 
-build:
-	docker compose build
-
-up:
-	docker compose up -d --build
-
-down:
-	docker compose down
-
-logs:
-	docker compose logs -f
+setup:
+	python3 -m venv venv
+	. venv/bin/activate && pip3 install -r requirements.txt
 
 run:
-	docker compose exec instagram-uploader python seo_to_instagram.py
+	. venv/bin/activate && python3 seo_to_instagram.py
 
-install:
-	pip install -r requriments.txt
-	pip install supabase python-dotenv requests pytrends
+docker-clean:
+	docker stop socialmedia || true
+	docker rm socialmedia || true
+	docker rmi socialmedia || true
 
-clean:
-	docker compose down --rmi all --volumes --remove-orphans
+docker-build: docker-clean
+	docker build -t socialmedia .
+
+docker-run: docker-build
+	docker run socialmedia
+docker-logs:
+	docker logs -f socialmedia
