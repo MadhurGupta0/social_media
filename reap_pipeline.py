@@ -13,7 +13,7 @@ import requests
 import yt_dlp
 
 # ── Config ────────────────────────────────────────────────────────────────────
-REAP_API_KEY = os.environ.get("REAP_API_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhdXRvbWF0aW9uLWFwaXw2OWU4NjZhNGY3N2YzNzY5NDRjMmU1YWUiLCJleHAiOjE4MjA5MDIzMDguMDIyODAxOX0.D6kQBcyPGHyuZRn3lSIWQU6VjeHip5xkKSCi32grJRo")
+REAP_API_KEY = os.environ.get("REAP_API_KEY")
 print(f"Using Reap API Key: {REAP_API_KEY}")
 BASE_URL = "https://public.reap.video/api/v1/automation"
 HEADERS = {"Authorization": f"Bearer {REAP_API_KEY}", "Content-Type": "application/json"}
