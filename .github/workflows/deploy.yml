@@ -25,10 +25,10 @@ jobs:
           | docker login --username AWS --password-stdin 049559536960.dkr.ecr.ap-south-2.amazonaws.com
 
     - name: Build image
-      run: docker build -t blogautomation .
+      run: docker build -t socialmedia .
 
     - name: Tag image
-      run: docker tag blogautomation:latest 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/blogautomation:latest
+      run: docker tag socialmedia:latest 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/socialmedia:latest
 
     - name: Push image
-      run: docker push 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/blogautomation:latest
+      run: docker push 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/socialmedia:latest
