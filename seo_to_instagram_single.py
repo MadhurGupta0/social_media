@@ -57,8 +57,6 @@ db: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 bedrock_client = boto3.client(
     "bedrock-runtime",
     region_name="us-east-1",
-    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
 )
 
 MODEL_ID = "meta.llama3-8b-instruct-v1:0"
