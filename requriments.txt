@@ -1,8 +1,7 @@
-yt-dlp 
-moviepy 
-openai-whisper
-sentence-transformers 
-numpy
+boto3
+requests
+yt-dlp
+pytrends
 supabase
 python-dotenv
-requests
+urllib3
