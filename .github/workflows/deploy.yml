@@ -32,3 +32,10 @@ jobs:
 
     - name: Push image
       run: docker push 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/socialmedia:latest
+
+    - name: Deploy to Lambda
+      run: |
+        aws lambda update-function-code \
+          --function-name mello-socialmedia-pipeline \
+          --image-uri 049559536960.dkr.ecr.ap-south-2.amazonaws.com/mello/socialmedia:latest \
+          --region ap-south-2
