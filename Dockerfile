@@ -1,23 +1,22 @@
-FROM python:3.13-slim-bookworm
+FROM public.ecr.aws/lambda/python:3.13
 
-WORKDIR /app
+# Install ffmpeg (static build — no package manager needed)
+RUN dnf install -y tar xz && \
+    curl -L https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
+        -o /tmp/ffmpeg.tar.xz && \
+    tar -xf /tmp/ffmpeg.tar.xz -C /tmp && \
+    mv /tmp/ffmpeg-*-amd64-static/ffmpeg /usr/local/bin/ffmpeg && \
+    rm -rf /tmp/ffmpeg* && \
+    dnf clean all
 
 # Install Python deps
-COPY requriments.txt .
-RUN pip install --no-cache-dir -r requriments.txt \
-    && pip install --no-cache-dir supabase python-dotenv requests pytrends boto3
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
-COPY seo_to_instagram.py .
-COPY seotreand.py .
-COPY reap_pipeline.py .
-COPY instagram_upload.py .
+# Copy source + bundled BGM asset
+COPY seo_to_instagram_single.py ${LAMBDA_TASK_ROOT}/
+COPY background_music.mp3 ${LAMBDA_TASK_ROOT}/
 
-# Copy entrypoint
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# All secrets come from ECS task definition env vars — no .env file baked in
 ENV PYTHONUNBUFFERED=1
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["seo_to_instagram_single.lambda_handler"]
