@@ -48,7 +48,7 @@ TABLE               = "social media"
 MAX_TOPICS          = 1
 STATE_FILE          = "/tmp/pipeline_state.json"
 FALLBACK_FILE       = "/tmp/failed_records.jsonl"
-POST_COOLDOWN_HOURS = 20
+POST_COOLDOWN_HOURS = 10
 
 db: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
